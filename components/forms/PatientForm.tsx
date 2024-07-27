@@ -9,6 +9,7 @@ import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { UserFormValidation } from "@/lib/Validation"
 import { useRouter } from "next/navigation"
+import { createUser } from "@/lib/actions/patient.actions"
 
 
 //create a new file for this in the lib folder so codes wont get messy
@@ -43,24 +44,30 @@ const PatientForm =() => {
       
     },
   })
- 
+
+
   // 2. Define a submit handler.
-  async function onSubmit({name, email, phone}: z.infer<typeof UserFormValidation>) {
-   
-   setIsLoading(true);
-   try{
-    // const userData ={name, email, phone};
-    // const user = await createUser(userData);
-    
-    // if(user){
-    //   router.push(`/patients/${user.$id}/register`)
-    // }
-    
-    console.log(email, phone, name);
-   } catch(error){
-    console.log(error);
-   }
-  }
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
+    setIsLoading(true);
+    try {
+      console.log("Form values:", values); // Debug log
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      };
+      const newUser = await createUser(user);
+      console.log("New user created:", newUser); // Debug log
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
+    } catch (error) {
+      console.error("Error creating user:", error); // Changed to console.error for better error logging
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <Form {...form}>
@@ -97,9 +104,7 @@ const PatientForm =() => {
         name="phone"
         label="Phone Number"
         placeholder= "(077) 123-4567"
-       
         />
-        
         
         <SubmitButton isLoading={isLoading}>
           Get Started
