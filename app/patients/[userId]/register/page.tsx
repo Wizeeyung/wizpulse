@@ -1,27 +1,29 @@
+import RegistrationForm from '@/components/forms/RegistrationForm'
+import { getUser } from '@/lib/actions/patient.actions'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
 
+const Register = async ({params : {userId} }: SearchParamProps) => {
 
-import PatientForm from "@/components/forms/PatientForm";
-import Image from "next/image";
-import Link from "next/link";
-import { ProfileForm } from "@/components/forms/Testform";
+  const user = await getUser(userId)
 
+  console.log(user, 'user')
 
-
-export default function Home() {
   return (
     <div className="flex h-screen max-h-screen">
-      {/* TODO: OTP Verification / Pass Key Modal */}
       <section className="remove-scrollbar container my-auto">
-        <div className="mx-auto flex size-full flex-col py-10 max-w-[496px]">
+        <div className="sub-container max-w-[860px] flex-1 flex-col py-10">
           <Image 
           src="/assets/icons/logo-full.svg"
           height={1000}
           width={1000}
           alt="patient"
-          className="mb-12 h-10 w-fit"
+          className="mb-12 h-10 xl:h-10 w-fit"
           />
 
-          <PatientForm />
+          <RegistrationForm user={user}/>
+          
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="text-dark-600 xl:text-left">
               © 2024 WizPulse
@@ -36,13 +38,15 @@ export default function Home() {
       </section>
 
       <Image
-        src="/assets/images/onboarding-img.png"
+        src="/assets/images/register-img.png"
         width={1000}
         height={1000}
         alt="hero-image"
-        className="hidden md:block h-full object-cover max-w-[50%]"
+        className="hidden md:block h-full opacity-50 object-cover max-w-[390px]"
       />
       
     </div>
-  );
+  )
 }
+
+export default Register

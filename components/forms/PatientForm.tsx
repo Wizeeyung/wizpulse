@@ -58,9 +58,8 @@ const PatientForm =() => {
       };
       const newUser = await createUser(user);
       console.log("New user created:", newUser); // Debug log
-      if (newUser) {
-        router.push(`/patients/${newUser.$id}/register`);
-      }
+      if (newUser) router.push(`/patients/${newUser.$id}/register`);
+      
     } catch (error) {
       console.error("Error creating user:", error); // Changed to console.error for better error logging
     } finally {
@@ -79,9 +78,9 @@ const PatientForm =() => {
         </section>
 
         <CustomFormField 
-        fieldType={FormFieldType.INPUT} 
         control={form.control}
-        name="username"
+        fieldType={FormFieldType.INPUT} 
+        name="name"
         label="Full Name"
         placeholder= "John Doe"
         iconSrc = "/assets/icons/user.svg"
@@ -89,8 +88,8 @@ const PatientForm =() => {
         />
 
         <CustomFormField 
-        fieldType={FormFieldType.INPUT} 
         control={form.control}
+        fieldType={FormFieldType.INPUT} 
         name="email"
         label="Email"
         placeholder= "JohnDoe@gmail.com"
@@ -99,8 +98,8 @@ const PatientForm =() => {
         />
 
         <CustomFormField 
-        fieldType={FormFieldType.PHONE_INPUT} 
         control={form.control}
+        fieldType={FormFieldType.PHONE_INPUT} 
         name="phone"
         label="Phone Number"
         placeholder= "(077) 123-4567"
